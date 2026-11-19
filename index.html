@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upcoming Products — MMA Pixel Forge Studio (MPFS)</title>
+  <style>
+    :root {
+      --bg-base: #060911;
+      --bg-surface: #0d1322;
+      --bg-card: rgba(17, 25, 43, 0.78);
+      --bg-card-hover: rgba(24, 35, 60, 0.92);
+      --cyan: #0ea5e9;
+      --cyan-bright: #38bdf8;
+      --amber: #f59e0b;
+      --amber-soft: #fbbf24;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --border-subtle: rgba(148, 163, 184, 0.14);
+      --border-glow: rgba(56, 189, 248, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(14, 165, 233, 0.12), transparent 38%),
+        radial-gradient(circle at 85% 20%, rgba(245, 158, 11, 0.08), transparent 35%),
+        linear-gradient(180deg, #060911 0%, #090e1a 100%);
+      color: var(--text-primary);
+      line-height: 1.65;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Verification Strip */
+    .security-strip {
+      background: linear-gradient(90deg, rgba(14, 165, 233, 0.14), rgba(245, 158, 11, 0.12));
+      border-bottom: 1px solid var(--border-subtle);
+      text-align: center;
+      padding: 0.55rem 1rem;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      letter-spacing: 0.2px;
+    }
+
+    .security-strip strong {
+      color: var(--amber-soft);
+    }
+
+    /* Sticky Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 9, 17, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .nav-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 3px;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+    }
+
+    .nav-title-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-title {
+      font-weight: 800;
+      font-size: 0.98rem;
+      letter-spacing: 0.4px;
+    }
+
+    .nav-subtitle {
+      font-size: 0.72rem;
+      color: var(--cyan-bright);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-btn.active {
+      color: #060911;
+      background: linear-gradient(135deg, var(--cyan-bright), var(--cyan));
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+    }
+
+    /* Main Wrapper */
+    main {
+      flex: 1;
+      max-width: 1180px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* View Switching */
+    .page-view {
+      display: none;
+      animation: fadeSlide 0.35s ease forwards;
+    }
+
+    .page-view.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Hero Brand Showcase */
+    .hero-brand {
+      text-align: center;
+      padding: 2.5rem 1.5rem 3rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-brand::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan-bright), var(--amber), transparent);
+    }
+
+    .hero-logo-frame {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 1.5rem;
+      padding: 8px;
+      border-radius: 24px;
+      background: #ffffff;
+      box-shadow: 0 12px 35px rgba(14, 165, 233, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-logo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 16px;
+    }
+
+    .studio-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(14, 165, 233, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--cyan-bright);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      padding: 0.35rem 0.95rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+
+    .hero-brand h1 {
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-tagline {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--amber-soft);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-slogan {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    .brand-pledge {
+      max-width: 720px;
+      margin: 0 auto;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-subtle);
+      color: #cbd5e1;
+      font-size: 0.95rem;
+    }
+
+    .brand-pledge span {
+      color: var(--cyan-bright);
+      font-weight: 700;
+    }
+
+    /* Section Title */
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 1.75rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.65rem;
+      font-weight: 700;
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+    }
+
+    /* Product Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      background: var(--bg-card-hover);
+      border-color: var(--border-glow);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.1rem;
+    }
+
+    .card-index {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--cyan-bright);
+      background: rgba(14, 165, 233, 0.14);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+    }
+
+    .status-chip {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--amber-soft);
+      background: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      padding: 0.22rem 0.65rem;
+      border-radius: 999px;
+    }
+
+    .product-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.35;
+    }
+
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag {
+      font-size: 0.76rem;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      padding: 0.22rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .card-action {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: rgba(14, 165, 233, 0.12);
+      color: var(--cyan-bright);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .card-action:hover {
+      background: var(--cyan-bright);
+      color: #060911;
+    }
+
+    /* Dedicated Product Detail Pages */
+    .detail-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 2rem;
+      transition: background 0.2s ease;
+    }
+
+    .back-link:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .detail-header {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .detail-header h1 {
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      margin: 0.6rem 0 0.75rem;
+    }
+
+    .detail-lead {
+      font-size: 1.08rem;
+      color: var(--text-secondary);
+      max-width: 780px;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .info-panel {
+      background: rgba(6, 9, 17, 0.55);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.4rem;
+    }
+
+    .info-panel h4 {
+      color: var(--cyan-bright);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      margin-bottom: 0.65rem;
+    }
+
+    .info-panel p, .info-panel li {
+      color: #cbd5e1;
+      font-size: 0.94rem;
+    }
+
+    .info-panel ul {
+      padding-left: 1.15rem;
+    }
+
+    .info-panel li {
+      margin-bottom: 0.35rem;
+    }
+
+    .detail-footer-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .free-assurance {
+      font-size: 0.88rem;
+      color: var(--amber-soft);
+      font-weight: 600;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(6, 9, 17, 0.9);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-brand img {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      background: #ffffff;
+      padding: 2px;
+      object-fit: contain;
+    }
+
+    .footer-brand strong {
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+
+    .footer-disclaimer {
+      max-width: 720px;
+      margin: 0.85rem auto 0;
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    @media (max-width: 640px) {
+      .detail-wrapper {
+        padding: 1.5rem;
+      }
+      .hero-brand {
+        padding: 2rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Authenticity Verification Bar -->
+  <div class="security-strip">
+    <strong>Official Notice:</strong> Only trust <strong>MMA Pixel Forge Studio (MPFS)</strong>. We have <strong>NO LinkedIn profile</strong> and are not affiliated with "Pixel Forge Studio," "Forge Studio," or any fitness/gym brands.
+  </div>
+
+  <!-- Sticky Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand" onclick="navigateTo('home')">
+        <img
+          src="https://drive.google.com/thumbnail?id=1e-zreGmq677JIaR8du2aCFb2NWihbvzM&sz=w300"
+          onerror="this.onerror=null;this.src='https://lh3.googleusercontent.com/d/1e-zreGmq677JIaR8du2aCFb2NWihbvzM=w300';"
+          alt="MPFS Official Logo"
+          class="nav-logo"
+        />
+        <div class="nav-title-group">
+          <span class="nav-title">MMA PIXEL FORGE STUDIO</span>
+          <span class="nav-subtitle">Upcoming Products</span>
+        </div>
+      </div>
+
+      <nav class="nav-links" aria-label="Product Navigation">
+        <button class="nav-btn active" data-target="home" onclick="navigateTo('home')">Overview</button>
+        <button class="nav-btn" data-target="communications" onclick="navigateTo('communications')">MPFS Communications</button>
+        <button class="nav-btn" data-target="radiframe" onclick="navigateTo('radiframe')">Radiframe</button>
+        <button class="nav-btn" data-target="aevyni" onclick="navigateTo('aevyni')">Aevyni AI</button>
+        <button class="nav-btn" data-target="noose" onclick="navigateTo('noose')">Successful Noose</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ==================== OVERVIEW PAGE ==================== -->
+    <section id="view-home" class="page-view active">
+      <div class="hero-brand">
+        <div class="hero-logo-frame">
+          <img
+            src="https://drive.google.com/thumbnail?id=1e-zreGmq677JIaR8du2aCFb2NWihbvzM&sz=w600"
+            onerror="this.onerror=null;this.src='https://lh3.googleusercontent.com/d/1e-zreGmq677JIaR8du2aCFb2NWihbvzM=w600';"
+            alt="MMA Pixel Forge Studio (MPFS) Official Logo"
+          />
+        </div>
+        <div class="studio-pill">Upcoming Product Updates</div>
+        <h1>MMA Pixel Forge Studio (MPFS)</h1>
+        <div class="hero-tagline">Where VISUAL Speaks</div>
+        <div class="hero-slogan">Designs Beyond Imagination</div>
+        <p class="brand-pledge">
+          Every MPFS software, AI engine, communication platform, media hub, and game is <span>100% Free Forever</span> — no subscriptions, no paywalls, and no donations requested.
+        </p>
+      </div>
+
+      <div class="section-header">
+        <div>
+          <h2>Upcoming MPFS Releases</h2>
+          <p>Select any upcoming product to open its dedicated information page.</p>
+        </div>
+      </div>
+
+      <div class="products-grid">
+        <!-- Card 1 -->
+        <article class="product-card">
+          <div>
+            <div class="card-top">
+              <span class="card-index">01</span>
+              <span class="status-chip">Coming Soon</span>
+            </div>
+            <h3>MPFS COMMUNICATIONS WORLDWIDE</h3>
+            <div class="tag-cloud">
+              <span class="tag">Communication Platform</span>
+              <span class="tag">Brand Identities</span>
+            </div>
+          </div>
+          <button class="card-action" onclick="navigateTo('communications')">Open Product Page &rarr;</button>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="product-card">
+          <div>
+            <div class="card-top">
+              <span class="card-index">02</span>
+              <span class="status-chip">Coming Soon</span>
+            </div>
+            <h3>RADIFRAME</h3>
+            <div class="tag-cloud">
+              <span class="tag">Podcasts</span>
+              <span class="tag">Live Shows</span>
+              <span class="tag">Channels</span>
+              <span class="tag">Live Streaming</span>
+              <span class="tag">Televisions</span>
+              <span class="tag">Entertainment</span>
+              <span class="tag">Movies</span>
+              <span class="tag">Video Sharing</span>
+            </div>
+          </div>
+          <button class="card-action" onclick="navigateTo('radiframe')">Open Product Page &rarr;</button>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="product-card">
+          <div>
+            <div class="card-top">
+              <span class="card-index">03</span>
+              <span class="status-chip">Coming Soon</span>
+            </div>
+            <h3>AEVYNI AI PROJECT ENGINE</h3>
+            <div class="tag-cloud">
+              <span class="tag">Complete AI Project Maker</span>
+            </div>
+          </div>
+          <button class="card-action" onclick="navigateTo('aevyni')">Open Product Page &rarr;</button>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="product-card">
+          <div>
+            <div class="card-top">
+              <span class="card-index">04</span>
+              <span class="status-chip">Coming Soon</span>
+            </div>
+            <h3>Successful Noose</h3>
+            <div class="tag-cloud">
+              <span class="tag">Mission</span>
+              <span class="tag">Game</span>
+              <span class="tag">Entertainment</span>
+            </div>
+          </div>
+          <button class="card-action" onclick="navigateTo('noose')">Open Product Page &rarr;</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- ==================== PAGE 1: MPFS COMMUNICATIONS WORLDWIDE ==================== -->
+    <section id="view-communications" class="page-view">
+      <div class="detail-wrapper">
+        <button class="back-link" onclick="navigateTo('home')">&larr; Back to All Upcoming Products</button>
+
+        <div class="detail-header">
+          <span class="status-chip">Coming Soon &bull; Product 01</span>
+          <h1>MPFS COMMUNICATIONS WORLDWIDE</h1>
+          <p class="detail-lead">
+            A next-generation global communication ecosystem engineered by MMA Pixel Forge Studio to connect teams, creators, and organizations with unified brand identities.
+          </p>
+        </div>
+
+        <div class="detail-grid">
+          <div class="info-panel">
+            <h4>Product Categories</h4>
+            <div class="tag-cloud" style="margin-bottom:0;">
+              <span class="tag">Communication Platform</span>
+              <span class="tag">Brand Identities</span>
+            </div>
+          </div>
+
+          <div class="info-panel">
+            <h4>Core Focus</h4>
+            <ul>
+              <li>Seamless global messaging and professional communication channels.</li>
+              <li>Integrated brand identity management for studios, startups, and creators.</li>
+              <li>Privacy-focused account protection with zero hidden fees.</li>
+            </ul>
+          </div>
+
+          <div class="info-panel">
+            <h4>Availability & Pricing</h4>
+            <p>
+              Currently in active development at MPFS. Upon launch, <strong>MPFS COMMUNICATIONS WORLDWIDE</strong> will be 100% free forever with no paid subscriptions.
+            </p>
+          </div>
+        </div>
+
+        <div class="detail-footer-nav">
+          <span class="free-assurance">MMA Pixel Forge Studio &bull; 100% Free Forever</span>
+          <button class="card-action" style="width:auto;" onclick="navigateTo('radiframe')">Next: RADIFRAME &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PAGE 2: RADIFRAME ==================== -->
+    <section id="view-radiframe" class="page-view">
+      <div class="detail-wrapper">
+        <button class="back-link" onclick="navigateTo('home')">&larr; Back to All Upcoming Products</button>
+
+        <div class="detail-header">
+          <span class="status-chip">Coming Soon &bull; Product 02</span>
+          <h1>RADIFRAME</h1>
+          <p class="detail-lead">
+            An all-in-one digital broadcasting, streaming, and entertainment hub bringing podcasts, live television, movies, and creator video channels together on one free platform.
+          </p>
+        </div>
+
+        <div class="detail-grid">
+          <div class="info-panel">
+            <h4>Product Categories</h4>
+            <div class="tag-cloud" style="margin-bottom:0;">
+              <span class="tag">Podcasts</span>
+              <span class="tag">Live Shows</span>
+              <span class="tag">Channels</span>
+              <span class="tag">Live Streaming</span>
+              <span class="tag">Televisions</span>
+              <span class="tag">Entertainment</span>
+              <span class="tag">Movies</span>
+              <span class="tag">Video Sharing</span>
+            </div>
+          </div>
+
+          <div class="info-panel">
+            <h4>What to Expect</h4>
+            <ul>
+              <li>On-demand movies, creator channels, and high-definition video sharing.</li>
+              <li>Real-time live streaming, interactive live shows, and television broadcasts.</li>
+              <li>Dedicated podcast hosting and discovery built for global audiences.</li>
+            </ul>
+          </div>
+
+          <div class="info-panel">
+            <h4>Availability & Pricing</h4>
+            <p>
+              Currently in active development at MPFS. <strong>RADIFRAME</strong> will launch completely free for both viewers and creators—no paywalls or donation prompts.
+            </p>
+          </div>
+        </div>
+
+        <div class="detail-footer-nav">
+          <span class="free-assurance">MMA Pixel Forge Studio &bull; 100% Free Forever</span>
+          <button class="card-action" style="width:auto;" onclick="navigateTo('aevyni')">Next: AEVYNI AI PROJECT ENGINE &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PAGE 3: AEVYNI AI PROJECT ENGINE ==================== -->
+    <section id="view-aevyni" class="page-view">
+      <div class="detail-wrapper">
+        <button class="back-link" onclick="navigateTo('home')">&larr; Back to All Upcoming Products</button>
+
+        <div class="detail-header">
+          <span class="status-chip">Coming Soon &bull; Product 03</span>
+          <h1>AEVYNI AI PROJECT ENGINE</h1>
+          <p class="detail-lead">
+            An intelligent end-to-end AI project builder designed to turn concepts into complete, structured digital projects faster and smarter.
+          </p>
+        </div>
+
+        <div class="detail-grid">
+          <div class="info-panel">
+            <h4>Product Category</h4>
+            <div class="tag-cloud" style="margin-bottom:0;">
+              <span class="tag">Complete AI Project Maker</span>
+            </div>
+          </div>
+
+          <div class="info-panel">
+            <h4>Core Capabilities</h4>
+            <ul>
+              <li>Full-lifecycle project planning, structuring, and automated generation.</li>
+              <li>Built for developers, designers, and innovators seeking rapid execution.</li>
+              <li>Protected user workspaces with secure free account login.</li>
+            </ul>
+          </div>
+
+          <div class="info-panel">
+            <h4>Availability & Pricing</h4>
+            <p>
+              Currently in active development at MPFS. Unlike paid AI platforms, <strong>AEVYNI AI PROJECT ENGINE</strong> will remain 100% free forever.
+            </p>
+          </div>
+        </div>
+
+        <div class="detail-footer-nav">
+          <span class="free-assurance">MMA Pixel Forge Studio &bull; 100% Free Forever</span>
+          <button class="card-action" style="width:auto;" onclick="navigateTo('noose')">Next: Successful Noose &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PAGE 4: SUCCESSFUL NOOSE ==================== -->
+    <section id="view-noose" class="page-view">
+      <div class="detail-wrapper">
+        <button class="back-link" onclick="navigateTo('home')">&larr; Back to All Upcoming Products</button>
+
+        <div class="detail-header">
+          <span class="status-chip">Coming Soon &bull; Product 04</span>
+          <h1>Successful Noose</h1>
+          <p class="detail-lead">
+            An immersive, mission-driven gaming and interactive entertainment experience crafted by MMA Pixel Forge Studio.
+          </p>
+        </div>
+
+        <div class="detail-grid">
+          <div class="info-panel">
+            <h4>Product Categories</h4>
+            <div class="tag-cloud" style="margin-bottom:0;">
+              <span class="tag">Mission</span>
+              <span class="tag">Game</span>
+              <span class="tag">Entertainment</span>
+            </div>
+          </div>
+
+          <div class="info-panel">
+            <h4>Experience Highlights</h4>
+            <ul>
+              <li>Objective-based missions engineered for high engagement and strategy.</li>
+              <li>Signature MPFS visual craftsmanship and atmospheric storytelling.</li>
+              <li>Pure entertainment with zero pay-to-win mechanics or microtransactions.</li>
+            </ul>
+          </div>
+
+          <div class="info-panel">
+            <h4>Availability & Pricing</h4>
+            <p>
+              Currently in active development at MPFS. <strong>Successful Noose</strong> will be released completely free to play for everyone.
+            </p>
+          </div>
+        </div>
+
+        <div class="detail-footer-nav">
+          <span class="free-assurance">MMA Pixel Forge Studio &bull; 100% Free Forever</span>
+          <button class="card-action" style="width:auto;" onclick="navigateTo('home')">Back to Overview &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-brand">
+      <img
+        src="https://drive.google.com/thumbnail?id=1e-zreGmq677JIaR8du2aCFb2NWihbvzM&sz=w200"
+        onerror="this.onerror=null;this.src='https://lh3.googleusercontent.com/d/1e-zreGmq677JIaR8du2aCFb2NWihbvzM=w200';"
+        alt="MPFS Logo"
+      />
+      <strong>MMA Pixel Forge Studio (MPFS)</strong>
+    </div>
+    <p>Where VISUAL Speaks &mdash; Designs Beyond Imagination</p>
+    <p class="footer-disclaimer">
+      &copy; 2026 MMA Pixel Forge Studio (MPFS). All products and services are 100% free forever. We do not operate any LinkedIn page and are not associated with "Pixel Forge Studio," "Forge Studio," or any gym/fitness entities.
+    </p>
+  </footer>
+
+  <script>
+    const validViews = ['home', 'communications', 'radiframe', 'aevyni', 'noose'];
+
+    function navigateTo(viewId, updateHash = true) {
+      if (!validViews.includes(viewId)) viewId = 'home';
+
+      document.querySelectorAll('.page-view').forEach(section => {
+        section.classList.remove('active');
+      });
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.target === viewId);
+      });
+
+      const targetSection = document.getElementById('view-' + viewId);
+      if (targetSection) {
+        targetSection.classList.add('active');
+      }
+
+      if (updateHash) {
+        history.pushState(null, '', viewId === 'home' ? '#overview' : '#' + viewId);
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleHashChange() {
+      const hash = window.location.hash.replace('#', '');
+      if (validViews.includes(hash)) {
+        navigateTo(hash, false);
+      } else {
+        navigateTo('home', false);
+      }
+    }
+
+    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('DOMContentLoaded', handleHashChange);
+  </script>
+
+</body>
+</html>
